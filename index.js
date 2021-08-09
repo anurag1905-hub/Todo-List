@@ -29,13 +29,16 @@ app.get('/',function(req,res){
 });
 
 app.post('/create-tasks',function(req,res){
+    console.log('***********************************************************');
+    console.log(req.body);
+    console.log('***********************************************************');
     Task.create({
         content:req.body.content,
         category:req.body.category,
         due:req.body.due,
     },function(err,newTask){
        if(err){
-           console.log('Error in creating a contact');
+           console.log('Error in creating a contact',err);
            return;
        }
        console.log('************',newTask);
@@ -44,14 +47,20 @@ app.post('/create-tasks',function(req,res){
 });
 
 app.get('/delete-tasks',function(req,res){
-    let id=req.query.id;
-    Task.findByIdAndDelete(id,function(err){
+    console.log(req.query.id);
+    let _ids=req.query.id;
+    if(req.query.id){
+    Task.deleteMany({_id:{$in:_ids}},function(err,result){
         if(err){
             console.log('Error in deleting an object from database');
             return;
         }
         return res.redirect('back');
     })
+    }
+    else{
+        return res.redirect('back');
+    }
 })
 
 app.listen(port,function(err){
