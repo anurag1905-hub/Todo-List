@@ -2,37 +2,72 @@
 <html>
     <head>
         <title>Todo List</title>
+        <script src="https://kit.fontawesome.com/15a25df2f9.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" type="text/css" href="/css/home.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1>Todo List</h1>
-        <form action="/create-tasks" method="POST">
-            <textarea name="content" rows="5" cols="30" placeholder="What do you need to do ?" required></textarea>
-            <br>
-            <input type="date" name="due" required>
-            <br>
-            <label for="cars">Choose a Category</label>
-            <select id="cars" name="category" size="3">
-            <option value="Personal">Personal</option>
-            <option value="Work">Work</option>
-            <option value="School">School</option>
-            <option value="Cleaning">Cleaning</option>
-            <option value="Other">Other</option>
-            </select>
-            <br>
-            <br>
-            <input type="submit" value="ADD TASK">
-        </form>
-        <br>
-        <br>
-        <div id="tasks">
-            <% for(tasks of tasks_list) { %>
-                <h1><%=tasks.content%></h1>
-                <p><%=tasks.category%></p>
-                <p><%=month[tasks.due.getMonth()]%> <%=tasks.due.getDate()%>, <%=tasks.due.getFullYear()%> </p>
-                <a href="/delete-tasks/?id=<%=tasks._id%>">Delete Task</a>
-                <br>
-            <% } %>
+        <div id="flex-container">
+            <div id="container">
+                <div id="header">
+                    TODO App
+                </div>
+                <form action="/create-tasks" method="POST">
+                <div id="description">
+                    <div class="first">DESCRIPTION</div>
+                    <textarea name="content" rows="3" placeholder="What do you need to do ?" required></textarea>
+                </div>
+                <div class="wrapper">
+                        <div id="category-chooser">
+                            <div class="first">CATEGORY</div>
+                            <select id="category" name="category" style="color:grey;" required>
+                            <option disabled selected value="">Choose a Category</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
+                            <option value="School">School</option>
+                            <option value="Cleaning">Cleaning</option>
+                            <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div id="due-date">
+                            <div class="first">DUE DATE</div>
+                            <div id="pick-date">
+                                <input type="text" name="due" id="datepicker" placeholder="dd/mm/yyyy" autocomplete="off" required>
+                            </div>
+                        </div>
+                </div>
+                <div id="task-wrapper">
+                    <div id="add-task">
+                        <button type="submit"><i class="fas fa-plus"></i>ADD TASK</button>
+                    </div>
+                </form>
+                <form action="/delete-tasks" action="get">
+                    <div id="delete-task">
+                        <button type="submit"><i class="fas fa-trash-alt"></i>DELETE TASKS</button>
+                    </div>
+                </div>
+             </div>
+                <% for(tasks of tasks_list) { %>
+                    <div>
+                        <div id="tasks-wrapper">
+                            <div id="task-content"> 
+                                <input type="checkbox" name="id" value="<%=tasks._id%>">
+                                   <%=tasks.content%>
+                                <div id="task-category">
+                                    <%=tasks.category%>
+                                </div>
+                                <div id="task-date">
+                                    <i class="far fa-calendar"></i><%=month[tasks.due.getMonth()]%> <%=tasks.due.getDate()%>, <%=tasks.due.getFullYear()%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+                </form>
         </div>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="/js/script.js"></script>
     </body>
 </html>
